@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import fireDb from "../firebase";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import "./Home.css";
 import { toast } from "react-toastify";
+
 
 const Home = () => {
   const [data, setData] = useState({});
   const [sortedData, setSortedData] = useState([]);
   const [sort, setSort] = useState(false);
+
 
   useEffect(() => {
     fireDb.child("contacts").on("value", (snapshot) => {

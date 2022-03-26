@@ -6,8 +6,6 @@ const LoginForm = ({ loginUser, errorSetting }) => {
   const [pass, setPass] = useState("");
   let history = useHistory();
 
-  history.push('./Home')
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (email && pass) {
@@ -46,7 +44,7 @@ const LoginForm = ({ loginUser, errorSetting }) => {
             />
           </div>
           <div className="form-group mt-5 mb-1">
-            <button onClick={() => {history.push('../home')}} className="btn btn-block btn-primary">Login</button>
+            <button type="submit" className="btn btn-block btn-primary">Login</button>
           </div>
         </form>
       </div>

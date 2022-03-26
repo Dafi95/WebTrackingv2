@@ -2,36 +2,35 @@ import React, { useState, useEffect } from "react";
 import RegisterForm from "./RegisterForm";
 import LoginForm from "./LoginForm";
 import auth from "../auth/config";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import "jquery/dist/jquery.slim";
 import "../styles.css";
 
-const App = () => {
-    // check if user is logined or not
+
+console.log(auth)
+
+export const logoutUser = () => {
+    auth
+        .signOut()
+        .then((user) => {
+            if (user) {
+
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
+
+const Login = () => {
+
     const [authenticated, setAuthenticated] = useState(false);
     const [user, setUser] = useState({});
     const [err, setErr] = useState("");
     const [success, setSuccess] = useState("");
 
-    useEffect(() => {
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                setAuthenticated(true);
-                setUser(user);
-            } else {
-                setAuthenticated(false);
-            }
-        });
 
-        if (err) {
-            setInterval(() => setErr(""), 5000);
-        }
-        if (success) {
-            setInterval(() => setSuccess(""), 5000);
-        }
-    }, [err, success]);
-    //create user
+
     const createUser = (email, pass) => {
         auth
             .createUserWithEmailAndPassword(email, pass)
@@ -45,12 +44,11 @@ const App = () => {
             });
     };
 
-    // login user
-
     const loginUser = (email, pass) => {
         auth
             .signInWithEmailAndPassword(email, pass)
             .then((user) => {
+                console.log("z logowania")
                 setAuthenticated(true);
                 setUser(user);
                 setSuccess("You are successfully logged in");
@@ -62,24 +60,8 @@ const App = () => {
             });
     };
 
-    //logoutUser
-    const logoutUser = () => {
-        auth
-            .signOut()
-            .then((user) => {
-                if (user) {
-                    setAuthenticated(false);
-                    setUser({});
-                    setSuccess("You are successfully logged out");
-                    setErr("");
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
 
-    // set error
+
 
     const errorSetting = (error) => {
         setErr(error);
@@ -133,7 +115,7 @@ const App = () => {
                         </h1>
                         <button
                             type="button"
-                            className="btn btn-outline-dark"
+                            className="logoutUser"
                             onClick={logoutUser}
                         >
                             Logout
@@ -145,4 +127,5 @@ const App = () => {
     );
 };
 
-export default App;
+export default Login;
+
