@@ -3,160 +3,180 @@ import fireDb from "../firebase";
 import {Link} from "react-router-dom";
 import "./Home.css";
 import { toast } from "react-toastify";
+// import express from "express";
+// import cors from "cors";
+// import morgan from "morgan";
+// import {router} from "./tableping";
+//
+// const app = express();
+//
+// app.use(express.json());
+//
+// app.use(cors());
+//
+// app.use(morgan("tiny"));
+//
+// app.use(express.static("public"));
+//
+// app.use(router);
+//
+// app.listen(3000, () => console.log("Server running"));
 
 
 const Home = () => {
-  const [data, setData] = useState({});
-  const [sortedData, setSortedData] = useState([]);
-  const [sort, setSort] = useState(false);
+    const [data, setData] = useState({});
+    const [sortedData, setSortedData] = useState([]);
+    const [sort, setSort] = useState(false);
 
 
-  useEffect(() => {
-    fireDb.child("contacts").on("value", (snapshot) => {
-      if (snapshot.val() !== null) {
-        setData({ ...snapshot.val() });
-      } else {
-        setData({});
-      }
-    });
-
-    return () => {
-      setData({});
-    };
-  }, []);
-
-  const onDelete = (id) => {
-    if (
-      window.confirm("Are you sure that you wanted to delete that WWW from site? ?")
-    ) {
-      fireDb.child(`contacts/${id}`).remove((err) => {
-        if (err) {
-          toast.error(err);
-        } else {
-          toast.success("WWW Deleted Successfully");
-        }
-      });
-    }
-  };
-
-  const handleChange = (e) => {
-    setSort(true);
-    fireDb
-      .child("contacts")
-      .orderByChild(`${e.target.value}`)
-      .on("value", (snapshot) => {
-        let sortedData = [];
-        snapshot.forEach((snap) => {
-          sortedData.push(snap.val());
+    useEffect(() => {
+        fireDb.child("contacts").on("value", (snapshot) => {
+            if (snapshot.val() !== null) {
+                setData({...snapshot.val()});
+            } else {
+                setData({});
+            }
         });
-        setSortedData(sortedData);
-      });
-  };
-  const handleReset = () => {
-    setSort(false);
-    fireDb.child("contacts").on("value", (snapshot) => {
-      if (snapshot.val() !== null) {
-        setData({ ...snapshot.val() });
-      } else {
-        setData({});
-      }
-    });
-  };
 
-  const filterData = (value) => {
-    fireDb
-      .child("contacts")
-      .orderByChild("status")
-      .equalTo(value)
-      .on("value", (snapshot) => {
-        if (snapshot.val()) {
-          const data = snapshot.val();
-          setData(data);
+        return () => {
+            setData({});
+        };
+    }, []);
+
+    const onDelete = (id) => {
+        if (
+            window.confirm("Are you sure that you wanted to delete that WWW from site? ?")
+        ) {
+            fireDb.child(`contacts/${id}`).remove((err) => {
+                if (err) {
+                    toast.error(err);
+                } else {
+                    toast.success("WWW Deleted Successfully");
+                }
+            });
         }
-      });
-  };
-  return (
-    <div style={{ marginTop: "100px" }}>
-      <table className="styled-table">
-        <thead>
-          <tr>
-            <th style={{ textAlign: "center" }}>ID</th>
-            <th style={{ textAlign: "center" }}>IP</th>
-            <th style={{ textAlign: "center" }}>E-mail</th>
-            <th style={{ textAlign: "center" }}>Last Check</th>
-            <th style={{ textAlign: "center" }}>Status</th>
-            {!sort && <th style={{ textAlign: "center" }}>Action</th>}
-          </tr>
-        </thead>
-        {!sort && (
-          <tbody>
-            {Object.keys(data).map((id, index) => {
-              return (
-                <tr key={id}>
-                  <th scope="row">{index + 1}</th>
-                  <td>{data[id].name}</td>
-                  <td>{data[id].email}</td>
-                  <td>{data[id].contact}</td>
-                  <td>{data[id].status}</td>
-                  <td>
-                    <Link to={`/update/${id}`}>
-                      <button className="btn btn-edit">Edit</button>
-                    </Link>
-                    <button
-                      className="btn btn-delete"
-                      onClick={() => onDelete(id)}
-                    >
-                      Delete
-                    </button>
-                    <Link to={`/view/${id}`}>
-                      <button className="btn btn-view">View</button>
-                    </Link>
-                  </td>
+    };
+
+    const handleChange = (e) => {
+        setSort(true);
+        fireDb
+            .child("contacts")
+            .orderByChild(`${e.target.value}`)
+            .on("value", (snapshot) => {
+                let sortedData = [];
+                snapshot.forEach((snap) => {
+                    sortedData.push(snap.val());
+                });
+                setSortedData(sortedData);
+            });
+    };
+    const handleReset = () => {
+        setSort(false);
+        fireDb.child("contacts").on("value", (snapshot) => {
+            if (snapshot.val() !== null) {
+                setData({...snapshot.val()});
+            } else {
+                setData({});
+            }
+        });
+    };
+
+    const filterData = (value) => {
+        fireDb
+            .child("contacts")
+            .orderByChild("status")
+            .equalTo(value)
+            .on("value", (snapshot) => {
+                if (snapshot.val()) {
+                    const data = snapshot.val();
+                    setData(data);
+                }
+            });
+    };
+    return (
+        <div style={{marginTop: "100px"}}>
+            <table className="styled-table">
+                <thead>
+                <tr>
+                    <th style={{textAlign: "center"}}>ID</th>
+                    <th style={{textAlign: "center"}}>IP</th>
+                    <th style={{textAlign: "center"}}>E-mail</th>
+                    <th style={{textAlign: "center"}}>Port Listening</th>
+                    <th style={{textAlign: "center"}}>Your message</th>
+                    {!sort && <th style={{textAlign: "center"}}>Action</th>}
                 </tr>
-              );
-            })}
-          </tbody>
-        )}
-        {sort && (
-          <tbody>
-            {sortedData.map((item, index) => {
-              return (
-                <tr key={index}>
-                  <th scope="row">{index + 1}</th>
-                  <td>{item.name}</td>
-                  <td>{item.email}</td>
-                  <td>{item.contact}</td>
-                  <td>{item.status}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        )}
-      </table>
-      <label>Sort By:</label>
-      <select className="dropdown" name="colValue" onChange={handleChange}>
-        <option>Please Select</option>
-        <option value="name">IP</option>
-        <option value="email">E-mail</option>
-        <option value="contact">Contact</option>
-        <option value="status">Status</option>
-      </select>
-      <button className="btn btn-reset" onClick={handleReset}>
-        Reset
-      </button>
-      <br />
-      <label>Status:</label>
-      <button className="btn btn-active" onClick={() => filterData("Active")}>
-        Active
-      </button>
-      <button
-        className="btn btn-inactive"
-        onClick={() => filterData("Inactive")}
-      >
-        Inactive
-      </button>
-    </div>
-  );
-};
+                </thead>
+                {!sort && (
+                    <tbody>
+                    {Object.keys(data).map((id, index) => {
+                        return (
+                            <tr key={id}>
+                                <th scope="row">{index + 1}</th>
+                                <td>{data[id].name}</td>
+                                <td>{data[id].email}</td>
+                                <td>{data[id].contact}</td>
+                                <td>{data[id].status}</td>
+                                <td>
+                                    <Link to={`/update/${id}`}>
+                                        <button className="btn btn-edit">Edit</button>
+                                    </Link>
+                                    <button
+                                        className="btn btn-delete"
+                                        onClick={() => onDelete(id)}
+                                    >
+                                        Delete
+                                    </button>
+                                    <Link to={`/view/${id}`}>
+                                        <button className="btn btn-view">View</button>
+                                    </Link>
+                                </td>
+                            </tr>
+                        );
+                    })}
+                    </tbody>
+                )}
+                {sort && (
+                    <tbody>
+                    {sortedData.map((item, index) => {
+                        return (
+                            <tr key={index}>
+                                <th scope="row">{index + 1}</th>
+                                <td>{item.name}</td>
+                                <td>{item.email}</td>
+                                <td>{item.contact}</td>
+                                <td>{item.status}</td>
+                            </tr>
+                        );
+                    })}
+                    </tbody>
+                )}
+            </table>
+            <label>Sort By:</label>
+            <select className="dropdown" name="colValue" onChange={handleChange}>
+                <option>Please Select</option>
+                <option value="name">IP</option>
+                <option value="email">E-mail</option>
+                <option value="contact">Port Listening</option>
+                <option value="status">Your message</option>
+            </select>
+            <button className="btn btn-reset" onClick={handleReset}>
+                Reset
+            </button>
+            <br/>
+            <label>Status:</label>
+            <button className="btn btn-active" onClick={() => filterData("Active")}>
+                Active
+            </button>
+            <button
+                className="btn btn-inactive"
+                onClick={() => filterData("Inactive")}
+            >
+                Inactive
+            </button>
+        </div>
+    );
+
+}
+
 
 export default Home;

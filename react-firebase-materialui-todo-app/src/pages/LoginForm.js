@@ -4,7 +4,7 @@ import {useHistory} from 'react-router-dom';
 const LoginForm = ({ loginUser, errorSetting }) => {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-  let history = useHistory();
+  const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();

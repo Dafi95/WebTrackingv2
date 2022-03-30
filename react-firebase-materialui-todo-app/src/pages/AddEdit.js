@@ -55,14 +55,14 @@ const AddEdit = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name || !email || !contact || !status) {
-      toast.error("Wpisz prawidlowy ID");
+      toast.error("Wpisz prawidlowe WWW");
     } else {
       if (!id) {
         fireDb.child("contacts").push(state, (err) => {
           if (err) {
             toast.error(err);
           } else {
-            toast.success("Contact Added Successfully");
+            toast.success("WWW Dodane pomyślnie");
           }
         });
       } else {
@@ -70,7 +70,7 @@ const AddEdit = () => {
           if (err) {
             toast.error(err);
           } else {
-            toast.success("Contact Updated Successfully");
+            toast.success("WWW Zaktualizowane pomyślnie");
           }
         });
       }
@@ -79,55 +79,55 @@ const AddEdit = () => {
     }
   };
   return (
-    <div style={{ marginTop: "100px" }}>
-      <form
-        style={{
-          margin: "auto",
-          padding: "15px",
-          maxWidth: "400px",
-          alignContent: "center",
-        }}
-        onSubmit={handleSubmit}
-      >
-        <label htmlFor="name">IP Address</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          placeHolder="Twój Adres IP"
-          value={name || ""}
-          onChange={handleInputChange}
-        />
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeHolder="Your Email..."
-          value={email || ""}
-          onChange={handleInputChange}
-        />
-        <label htmlFor="contact">Contact</label>
-        <input
-          type="number"
-          id="contact"
-          name="contact"
-          placeHolder="Your Contact No. ..."
-          value={contact || ""}
-          onChange={handleInputChange}
-        />
-        <label htmlFor="name">Status</label>
-        <input
-          type="text"
-          id="status"
-          name="status"
-          placeHolder="Your Status..."
-          value={status || ""}
-          onChange={handleInputChange}
-        />
-        <input type="submit" value={id ? "Update" : "Save"} />
-      </form>
-    </div>
+      <div style={{ marginTop: "100px" }}>
+        <form
+            style={{
+              margin: "auto",
+              padding: "15px",
+              maxWidth: "400px",
+              alignContent: "center",
+            }}
+            onSubmit={handleSubmit}
+        >
+          <label htmlFor="name">IP Address</label>
+          <input
+              type="text"
+              id="name"
+              name="name"
+              placeHolder="Twój Adres IP"
+              value={name || ""}
+              onChange={handleInputChange}
+          />
+          <label htmlFor="email">Email</label>
+          <input
+              type="email"
+              id="email"
+              name="email"
+              placeHolder="Your Email..."
+              value={email || ""}
+              onChange={handleInputChange}
+          />
+          <label htmlFor="Port">Port</label>
+          <input
+              type="number"
+              id="contact"
+              name="contact"
+              placeHolder="Your Port... eg:443"
+              value={contact || ""}
+              onChange={handleInputChange}
+          />
+          <label htmlFor="name">Free Text</label>
+          <input
+              type="text"
+              id="status"
+              name="status"
+              placeHolder="Your Message..."
+              value={status || ""}
+              onChange={handleInputChange}
+          />
+          <input type="submit" value={id ? "Update" : "Save"} />
+        </form>
+      </div>
   );
 };
 

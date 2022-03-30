@@ -1,10 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, {useState} from "react";
 import RegisterForm from "./RegisterForm";
 import LoginForm from "./LoginForm";
 import auth from "../auth/config";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "jquery/dist/jquery.slim";
 import "../styles.css";
+// import fireDb from "../firebase";
+// import {Link} from "react-router-dom";
+// import Home from "./Home";
+import "./Home.css";
+// import {Redirect} from "react-router-dom";
+// import PrivateRoute from "../PrivateRoute";
+// import { toast } from "react-toastify";
+// import authen from "./authen";
 
 
 console.log(auth)
@@ -25,10 +33,9 @@ export const logoutUser = () => {
 const Login = () => {
 
     const [authenticated, setAuthenticated] = useState(false);
-    const [user, setUser] = useState({});
+    const [setUser] = useState({});
     const [err, setErr] = useState("");
     const [success, setSuccess] = useState("");
-
 
 
     const createUser = (email, pass) => {
@@ -61,8 +68,6 @@ const Login = () => {
     };
 
 
-
-
     const errorSetting = (error) => {
         setErr(error);
     };
@@ -77,7 +82,7 @@ const Login = () => {
                         position: "absolute",
                         zIndex: "999",
                         right: "5%",
-                        top: "10%"
+                        top: "60%"
                     }}
                 >
                     <strong>{err}</strong>
@@ -91,41 +96,37 @@ const Login = () => {
                         position: "absolute",
                         zIndex: "999",
                         right: "5%",
-                        top: "10%"
+                        top: "60%"
                     }}
                 >
                     <strong>{success}</strong>
                 </div>
             ) : null}
             <div className="row">
-                <h1 className="mx-auto py-5">
-                    Login System Using <span className="text-primary"> React</span> and
-                    <span className="text-primary"> Firebase</span>
-                </h1>
+                <div className="iptable">
+                    Witaj na stronie WebTracking, opiera się na React i Firebase
+                </div>
 
                 {!authenticated ? (
                     <>
-                        <LoginForm loginUser={loginUser} errorSetting={errorSetting} />
-                        <RegisterForm createUser={createUser} errorSetting={errorSetting} />
+                        <LoginForm loginUser={loginUser} errorSetting={errorSetting}/>
+                        <RegisterForm createUser={createUser} errorSetting={errorSetting}/>
                     </>
                 ) : (
-                    <>
-                        <h1>
-                            Welcome <span className="text-primary">{user.email} </span>{" "}
-                        </h1>
-                        <button
-                            type="button"
-                            className="logoutUser"
-                            onClick={logoutUser}
-                        >
-                            Logout
-                        </button>
-                    </>
+                    <button
+                    onClick={event => window.location.href='/'
+                    }
+                    >
+                        Show me App
+                    </button>
+
                 )}
             </div>
         </div>
     );
 };
+
+
 
 export default Login;
 

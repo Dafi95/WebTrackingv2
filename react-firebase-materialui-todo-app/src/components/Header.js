@@ -1,8 +1,9 @@
-import React, {useContext, useEffect, useState} from "react";
-import {NavLink as Link, useLocation, useHistory} from "react-router-dom";
+import React, {useContext, useState} from "react";
+import {NavLink as Link, useHistory} from "react-router-dom";
 import "./Header.css";
 import {logoutUser} from "../pages/Login";
 import {UserContext} from "../App";
+
 
 
 
@@ -34,7 +35,7 @@ const Header = () => {
                         value={search}
                     />
                 </form>
-                <Link to="/">
+                <Link to="/Home">
                     <p
                         className={`${activeTab === "Home" ? "active" : ""}`}
                         onClick={() => setActiveTab("Home")}

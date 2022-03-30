@@ -11,11 +11,9 @@ import Header from "./components/Header";
 import Login from "./pages/Login";
 import PrivateRoute from "./PrivateRoute";
 import auth from "./auth/config";
+import CheckIsOnline from "./pages/CheckIsOnline";
 
 export const UserContext = createContext(null);
-
-
-
 
 function App() {
   const [user, setUser] = useState(null);
@@ -36,16 +34,17 @@ function App() {
       <UserContext.Provider value={user}>
         <BrowserRouter>
           <div className="App">
-            <Header />
+            <PrivateRoute exact path={"/"} component={Header}  />
             <ToastContainer position="top-center" />
             <Switch>
-              <Route exact path="/" component={Login} />
+              <Route exact path="/Login" component={Login} />
               <Route exact path="/LoginForm" component={Header} />
-              <PrivateRoute exact path="/home" component={Home} />
+              <PrivateRoute exact path="/Home" component={Home} />
               <PrivateRoute path="/add" component={AddEdit} />
               <Route path="/update/:id" component={AddEdit} />
               <Route path="/view/:id" component={View} />
               <Route path="/about" component={About} />
+              <Route path="/CheckIsOnline" component={CheckIsOnline} />
             </Switch>
           </div>
         </BrowserRouter>
