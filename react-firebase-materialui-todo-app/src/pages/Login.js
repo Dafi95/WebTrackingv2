@@ -5,14 +5,8 @@ import auth from "../auth/config";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "jquery/dist/jquery.slim";
 import "../styles.css";
-// import fireDb from "../firebase";
-// import {Link} from "react-router-dom";
-// import Home from "./Home";
 import "./Home.css";
-// import {Redirect} from "react-router-dom";
-// import PrivateRoute from "../PrivateRoute";
-// import { toast } from "react-toastify";
-// import authen from "./authen";
+
 
 
 console.log(auth)
@@ -58,11 +52,11 @@ const Login = () => {
                 console.log("z logowania")
                 setAuthenticated(true);
                 setUser(user);
-                setSuccess("You are successfully logged in");
+                setSuccess("Zalogowany pomyślnie");
                 setErr("");
             })
             .catch((err) => {
-                setErr("Invalid Email or Password");
+                setErr("Ops czyżby coś poszło nie tak?");
                 setSuccess("");
             });
     };

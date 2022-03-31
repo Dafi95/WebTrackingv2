@@ -44,7 +44,7 @@ function App() {
               <Route path="/update/:id" component={AddEdit} />
               <Route path="/view/:id" component={View} />
               <Route path="/about" component={About} />
-              <Route path="/CheckIsOnline" component={CheckIsOnline} />
+              <Route path="/" component={CheckIsOnline} />
             </Switch>
           </div>
         </BrowserRouter>

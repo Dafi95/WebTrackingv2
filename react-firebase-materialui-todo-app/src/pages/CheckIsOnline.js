@@ -1,30 +1,68 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import isReachable from "is-reachable";
+import "./CheckIsOnline.css";
 
-const URL = "speedtest.pl";
-const EVERY_SECOND = 1000;
+function App() {
+    const [input, setInput] = useState("");
+    const [online, setOnline] = useState(false);
+    const [data] = useState(["onet.pl", "google.pl", "stronaktorajestoffline.pl"]);
+    const [prezentedData, setPrezentedData] = useState([]);
+    const handleChange = (event) => {
+        setInput(event.target.value);
+    };
 
-export default class CheckIsOnline extends React.PureComponent {
-    _isMounted = true;
+    useEffect(() => {
+        Promise.all(data.map((el) => isOnline(el))).then((is) =>
+            setPrezentedData(
+                is.map((el, i) => ({
+                    isOnline: el,
+                    name: data[i]
+                }))
+            )
+        );
+    }, [data]);
 
-    state = { online: false };
+    const handleSubmit = () => {
+        const isOnline = async () => {
+            const is = await isReachable(input);
+            console.log(is);
+            setOnline(is);
+        };
+        isOnline();
+    };
 
-    componentDidMount() {
-        setInterval(async () => {
-            const online = await isReachable(URL);
+    const isOnline = async (el) => {
+        const is = await isReachable(el);
+        return is;
+    };
 
-            if (this._isMounted) {
-                this.setState({ online });
-            }
-        }, EVERY_SECOND);
-    }
+    return (
+        <div className="class12">
+            <div className="Checker">
+                <input
+                    className="OnlineCheck"
+                    type="text"
+                    placeholder="Wpisz"
+                    onChange={handleChange}
+                    value={input}
+                />
+                <button onClick={handleSubmit}>Sprawdź Status</button>
+                <h1>{online ? "Strona jest Online" : "Strona jest Offline"}</h1>
+            </div>
+            <div className="favortiesites">
+                <ul>
+                    {prezentedData.map((el) => {
+                        return (
+                            <li>
+                                {el.name} - {el.isOnline ? "online" : "offline"}
+                            </li>
+                        );
+                    })}
+                </ul>
 
-    componentWillUnmount() {
-        this._isMounted = false;
-    }
-
-    render() {
-        return <div>
-            {this.state.online ? "ONLINE" : "OFFLINE"}</div>;
-    }
+            </div>
+        </div>
+    );
 }
+
+export default App;

@@ -1,0 +1,45 @@
+.class12 {
+
+}
+
+
+.Checker {
+    display: flex;
+    margin-top: 20px;
+    background-color: #3f5bff;
+    border: none;
+    font-size: 20px;
+    color: #FFFFFF;
+    text-align: center;
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    padding: 100px;
+}
+
+.Checker > button {
+    margin-left: 10px;
+    justify-content: center;
+    background-color: white;
+}
+
+.Checker > button:hover {
+    margin-left: 10px;
+    justify-content: center;
+    background-color: #84ff44;
+}
+
+.Checker > h1 {
+    color: #f3f3f3;
+}
+
+.favortiesites {
+    border: 2px solid blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20%;
+}
